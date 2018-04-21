@@ -10,3 +10,7 @@ html, body{
   display: flex;
   align-items: center;
 }
+
+.fas, .fab {
+  cursor: pointer;
+}
