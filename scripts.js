@@ -12,7 +12,7 @@ $(document).ready(function () {
   function getQuote() {
     newQuoteBtn.children().toggleClass('fa-spin');
     newQuoteBtn.prop('disabled', true);
-    $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?", function (json) {
+    $.getJSON("https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?", function (json) {
 
       let quote = json[0].content;
       let author = json[0].title;
