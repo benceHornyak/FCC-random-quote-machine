@@ -9,8 +9,6 @@ $(document).ready(function () {
     getQuote();
   });
 
-
- // https://twitter.com/intent/tweet?text=TEXT
   function getQuote() {
     newQuoteBtn.children().toggleClass('fa-spin');
     newQuoteBtn.prop('disabled', true);
