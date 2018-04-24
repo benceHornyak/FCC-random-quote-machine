@@ -1,33 +1,31 @@
-$(document).ready(function () {
-
-  const quoteBody = $("#quote-body");
-  const quoteFooter = $("#quote-footer");
-  const twitterBtn = $("#twitter");
-  const newQuoteBtn = $("#newQuote");
+document.addEventListener('DOMContentLoaded', () => { 
+  const quoteBody = document.getElementById('quote-body');
+  const quoteFooter = document.getElementById('quote-footer');
+  const twitterBtn = document.getElementById('twitter');
+  const newQuoteBtn = document.getElementById('new-quote');
  
-  newQuoteBtn.click(function() {
-    getQuote();
-  });
+  newQuoteBtn.addEventListener("click", getQuote);
 
   function getQuote() {
-    newQuoteBtn.children().toggleClass('fa-spin');
-    newQuoteBtn.prop('disabled', true);
-    $.getJSON("https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?", function (json) {
+    let spinner = newQuoteBtn.childNodes[1];
+    spinner.classList.toggle('fa-spin');    
+    newQuoteBtn.disabled = true;
+    fetch("https://talaikis.com/api/quotes/random/")
+      .then((json) => json.json())
+      .then((data) => {
 
-      let quote = json[0].content;
-      let author = json[0].title;
-      quoteBody.html(quote);
-      quoteFooter.html(author);
-      newQuoteBtn.children().toggleClass('fa-spin');
-      newQuoteBtn.prop('disabled', false);
-      
-      quote = quote.replace(/(<([^>]+)>)/ig , "");
-      quote = quote.replace(/&#8217;/ig, "'");
-
-      twitterBtn.attr("href", 'https://twitter.com/intent/tweet?text="' + quote  + '" -- "' + author);
-
-    });
+        let quote = data.quote;
+        let author = data.author;
+        quoteBody.innerHTML = quote;
+        quoteFooter.innerHTML = author;
+        spinner.classList.toggle('fa-spin');
+        newQuoteBtn.disabled = false;
+        twitterBtn.setAttribute('href', 'https://twitter.com/intent/tweet?text="' + quote  + '" -- ' + author);
+      })
+      .catch(err => {
+        quoteBody.innerHTML = "There was an error, please try again!";
+      });
   }
 
   getQuote();
-});
+}, false);
